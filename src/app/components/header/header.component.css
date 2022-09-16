@@ -1,0 +1,9 @@
+*{
+  margin-top: 10px;
+  background-color: #fff;
+}
+.header-content{
+  display: flex;
+  flex-direction: row;
+  margin-left: 10px;
+}
