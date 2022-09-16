@@ -7,6 +7,7 @@ export class IEmployee {
   start_date: Date = new Date()
   department: Array<String> = []
   profile: string = ''
+  isUpdate : Boolean = false
   constructor(
   name: string,
   salary: number,

@@ -7,7 +7,7 @@ import {
   FormArray,
   FormControl,
 } from '@angular/forms';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IEmployee } from '../../employee';
 import { EmpServiceService } from '../../emp-service.service';
 
@@ -37,12 +37,13 @@ export class EmpFormComponent implements OnInit {
   message: any = '';
   employee: IEmployee = new IEmployee('', 0, '', '', '', new Date(), [], '');
   emp: any;
-
+  isUpdateValue: String = 'Submit';
   //
   constructor(
     private _fb: FormBuilder,
     private service: EmpServiceService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -61,31 +62,52 @@ export class EmpFormComponent implements OnInit {
       ],
       start_date: [],
       password: [],
-      // isUpdate : [false]
+      isUpdate: [false],
     });
-    this.route.paramMap.subscribe((params: ParamMap) => {
-      this.id = params.get('id');
-    });
+    this.id = this.route.snapshot.params['id'];
+    if (this.id != null) {
+      this.service.getEmployeeById(this.id).subscribe((arg) => {
+        this.emp = arg;
+        this.setData(this.emp);
+      });
+    }
+  }
+  changeButtonName() {
+    if (this.employeeForm.value.isUpdate) {
+      this.isUpdateValue = 'Update';
+    } else {
+      this.isUpdateValue = 'Submit';
+    }
   }
   getEmployeeByIds(id: number) {
-    this.service
-      .getEmployeeById(id)
-      .subscribe((arg) => (this.emp = arg));
-      this.setData(this.emp)
+    this.service.getEmployeeById(id).subscribe((arg) => (this.emp = arg));
+    this.setData(this.emp);
   }
   setData(employee: IEmployee) {
-    this.employeeForm.value.name = employee.name
-      this.employeeForm.value.salary = employee.salary
-      this.employeeForm.value.email = employee.email
-      this.employeeForm.value.password = employee.password
-      this.employeeForm.value.gender = employee.gender
-      this.employeeForm.value.start_date = employee.start_date
-      this.selectedDepartment = employee.department
-      this.employeeForm.value.profile  =employee.profile;
-      // this.employeeForm.value.isUpdate = true
+    this.employeeForm.controls['name'].setValue(employee.name);
+    this.employeeForm.controls['salary'].setValue(employee.salary);
+    this.employeeForm.controls['start_date'].setValue(employee.start_date);
+    this.employeeForm.controls['gender'].setValue(employee.gender);
+    this.employeeForm.controls['profile'].setValue(employee.profile);
+    this.employeeForm.controls['email'].setValue(employee.email);
+    this.employeeForm.controls['isUpdate'].setValue(true);
+    const selectedDep:Array<number> = []
+    this.departmentArray.controls.forEach((element, i) => {
+      const str1 = this.department1[i] as string
+      const str2 = employee.department[i] as string
+      if(this.department1.indexOf(str2) !== -1){
+        selectedDep.push(this.department1.indexOf(str2))
+      }
+    });
+    for (let index = 0; index < selectedDep.length; index++) {
+      this.departmentArray.controls[selectedDep[index]].setValue(true)
+    }
   }
   get departmentArray() {
     return <FormArray>this.employeeForm.get('dept');
+  }
+  get isUpdate() {
+    return <FormArray>this.employeeForm.get('isUpdate');
   }
   get name() {
     return <FormGroup>this.employeeForm.controls['name'];
@@ -116,7 +138,6 @@ export class EmpFormComponent implements OnInit {
   }
   submitHandler() {
     console.log(this.employeeForm.value);
-    if(this.employeeForm.value.isUpdate)
     this.employee = new IEmployee(
       this.employeeForm.value.name,
       this.employeeForm.value.salary,
@@ -128,9 +149,17 @@ export class EmpFormComponent implements OnInit {
       this.employeeForm.value.profile
     );
     console.log(this.employee.name);
+    if (this.employeeForm.controls['isUpdate']) {
+      console.log('This is update button');
 
-    let response = this.service.addEmployee(this.employee);
-    response.subscribe((data) => (this.message = data));
+      let response = this.service.editEmployee(this.employee, this.id);
+      response.subscribe((arg) => console.log(arg));
+      alert('Employee Details upated successfully');
+      this.router.navigate(['/display-employee']);
+    } else {
+      let response = this.service.addEmployee(this.employee);
+      response.subscribe((data) => (this.message = data));
+    }
   }
   getSelectedDepartment() {
     this.selectedDepartment = [];
@@ -139,10 +168,7 @@ export class EmpFormComponent implements OnInit {
         this.selectedDepartment.push(this.department1[i]);
       }
     });
-    console.log('This is dept 1 :', this.department1[1]);
-
     console.log(this.selectedDepartment);
-
     this.deptError = this.selectedDepartment.length > 0 ? false : true;
   }
   resetHandler() {

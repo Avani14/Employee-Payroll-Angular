@@ -82,7 +82,7 @@
         <a routerLink="/display-employee">
           <button class="cancel-button" mat-raised-button color="warn"> Cancel </button>
         </a>
-        <button type="submit" class="submit-button" mat-raised-button>Submit</button>
+        <button class="submit-button" mat-raised-button>{{ isUpdateValue }}</button>
         <button class="reset-button" mat-raised-button (click)="resetHandler()">Reset</button>
 
       </div>
