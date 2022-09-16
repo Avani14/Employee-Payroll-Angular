@@ -1,1 +1,91 @@
-<p>emp-form works!</p>
+<app-header></app-header>
+<small id="fnHelp" class="message-display">{{message}}</small>
+<mat-card>
+  <mat-card-title>Employee Payroll Form</mat-card-title>
+  <mat-card-content>
+    <form (submit)="submitHandler()" [formGroup]="employeeForm">
+      <label>Name</label>
+      <input class="name-input" placeholder="Ex. Avani"
+      [ngClass]="{'form-control' : true,
+        'is-valid': name?.valid && name?.touched,
+        'is-invalid': !name?.valid && name?.touched}"
+        required
+      formControlName="name" type="text" required>
+      <br><small *ngIf="name?.errors?.['required'] && name?.touched" class="error">Field is required</small>
+      <br>
+      <div class="profile-div">
+        <label for="profile">Profile</label>
+
+        <input formControlName="profile" value={{profileImage1}} class="radio-profile" type="radio" name="profile"
+          id="profile"><img class="profile" [src]="profileImage1" alt=""><br>
+        <input formControlName="profile" value={{profileImage2}} class="radio-profile" type="radio" name="profile"
+          id="profile"><img class="profile" [src]="profileImage2" alt=""><br>
+        <input formControlName="profile" value={{profileImage3}} class="radio-profile" type="radio" name="profile"
+          id="profile"><img class="profile" [src]="profileImage3" alt=""><br>
+        <input formControlName="profile" value={{profileImage4}} class="radio-profile" type="radio" name="profile"
+          id="profile"><img class="profile" [src]="profileImage4" alt=""><br>
+        <input formControlName="profile" value={{profileImage5}} class="radio-profile"
+        [ngClass]="{'form-control' : true,
+        'is-valid': profile?.valid && profile?.touched,
+        'is-invalid': !profile?.valid && profile?.touched}"
+        required
+        type="radio" name="profile"
+          id="profile"><img class="profile" [src]="profileImage5" alt=""><br>
+
+      </div>
+      <small *ngIf="profile?.errors?.['required'] && profile?.touched"  class="error">Field is required</small>
+      <br><br>
+      <div class="gender-div">
+        <label for="gender">Gender</label>
+        <input class="radio-gender" type="radio" formControlName="gender" name="gender" value="male" id="gender">Male
+        <input class="radio-gender" type="radio" [ngClass]="{'form-control' : true,
+      'is-valid': gender?.valid && gender?.touched,
+      'is-invalid': !gender?.valid && gender?.touched}" required formControlName="gender" name="gender" value="female"
+          id="gender">Female
+      </div><br>
+      <small *ngIf="gender?.errors?.['required'] && gender?.touched" class="error">Field is required</small>
+      <br>
+      <label>Email ID</label>
+      <input formControlName="email" [ngClass]="{'form-control' : true,
+      'is-valid': email?.valid && email?.touched,
+      'is-invalid': !email?.valid && email?.touched}" required type="email"><br><small
+        *ngIf="email?.errors?.['required'] && email?.touched" class="error">Field is required</small>
+      <br><br>
+      <div class="department-div">
+        <label for="department-label">Department</label>
+        <div class="dept-div" *ngFor="let control of departmentArray.controls;let i = index">
+          <input type="checkbox" [formControl]="$any(control)" (change)="getSelectedDepartment()" id="{{i}}" required>
+          {{department1[i]}}
+        </div>
+      </div>
+      <span class="error" *ngIf="deptError && checkIfDeptIsTouched()">Atleast choose one</span>
+      <br><br>
+      <label>Salary</label>
+      <input class="salary-input" placeholder="Ex. 10000" [ngClass]="{'form-control' : true,
+      'is-valid': salary?.valid && salary?.touched,
+      'is-invalid': !salary?.valid && salary?.touched}" required formControlName="salary" type="number">
+      <br><small *ngIf="salary?.errors?.['required'] && salary?.touched" class="error">Field is required</small>
+      <br><br>
+      <label>Start Date</label>
+      <input class="start-date-input" formControlName="start_date" [ngClass]="{'form-control' : true,
+      'is-valid': start_date?.valid && start_date?.touched,
+      'is-invalid': !start_date?.valid && start_date?.touched}" required type="date"><br>
+      <small *ngIf="start_date?.errors?.['required'] && start_date?.touched" class="error">Field is required</small>
+      <br><br>
+      <label>Password</label>
+      <input formControlName="password" type="password" [ngClass]="{'form-control' : true,
+                  'is-valid': password?.valid && password?.touched,
+                  'is-invalid': !password?.valid && password?.touched}" required><br>
+      <small *ngIf="password?.errors?.['required'] && password?.touched" class="error">Field is required</small>
+      <br><br>
+      <div class="buttons">
+        <a routerLink="/display-employee">
+          <button class="cancel-button" mat-raised-button color="warn"> Cancel </button>
+        </a>
+        <button type="submit" class="submit-button" mat-raised-button>Submit</button>
+        <button class="reset-button" mat-raised-button (click)="resetHandler()">Reset</button>
+
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

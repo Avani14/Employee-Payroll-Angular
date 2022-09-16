@@ -1,4 +1,111 @@
-*{
+* {
+  background: white;
+  opacity: 1;
+  color:black;
   margin: 0;
   padding: 0;
+}
+
+mat-card {
+  display: block;
+  margin: auto;
+  padding: auto;
+  width: max-content;
+  height: fit-content;
+  margin-top: 1px;
+  background: #FFFFFF ;
+  box-shadow: 5px 2px #888888;
+}
+mat-card-content{
+  padding: 20px;
+  margin-left: 80px;
+}
+mat-card-title{
+  margin: 0;
+  padding: 0;
+  text-decoration: #121212;
+  text-align: center;
+}
+label {
+  margin-right: 40px;
+}
+
+input {
+  padding: 10px;
+  width: 60vh;
+  border: 1px solid;
+}
+.buttons{
+  display: flex;
+  flex-direction: row;
+}
+.submit-button {
+  margin-left: 300px;
+  width: 20vh;
+  background-color: greenyellow;
+  color: white;
+}
+
+.submit-button:hover {
+  background-color: green;
+}
+
+.reset-button {
+  margin-left: 20px;
+  width: 20vh;
+}
+
+.reset-button:hover {
+  background-color: #888888;
+}
+.cancel-button{
+  margin-top: 0;
+  width: 10vh;
+}
+.cancel-button:hover{
+  background-color: red;
+}
+.radio-profile {
+  margin-left: 15px;
+  width: 15px;
+}
+
+.profile {
+  width: 50px;
+  height: 50px;
+  border-radius: 30px;
+  margin-left: 10px;
+}
+
+.profile-div {
+  display: flex;
+  margin-top: 15px;
+  flex-direction: row;
+}
+
+.gender-div {
+  display: flex;
+  flex-direction: row;
+  margin-left: 1px;
+}
+
+.radio-gender {
+  width: 15px;
+  margin-left: 10px;
+}
+.department-div {
+  display: flex;
+  flex-direction: row;
+}
+.dept-div{
+  display: flex;
+  flex-direction: row;
+  width: 80px;
+}
+.error{
+  color: red;
+}
+.message-display{
+  color: green;
+  text-align: center;
 }

@@ -1,0 +1,43 @@
+*{
+  margin: 0;
+  padding: 0;
+
+}
+table {
+  width: 80%;
+  margin-top: 5%;
+  margin-left: 10%;
+}
+th{
+  color: white;
+  background-color: #42515F;
+}
+td{
+  color: black;
+  background-color: white;
+  border: #E3E3E3;
+  font-size: medium;
+}
+.profile-image{
+  width: 50px;
+  border-radius: 30px;
+  margin-right: 20px;
+  display: flex;
+  text-align: center;
+}
+button{
+  margin-left:150vh;
+  background: #82A70C 0% 0% no-repeat padding-box;
+  color: white;
+  width: 20vh;
+}
+.profile-content{
+  display: flex;
+  flex-direction: row;
+}
+.profile-text{
+  text-align:right;
+  display: flex;
+  flex-direction: row;
+}
+
